@@ -3,14 +3,18 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MyContext from "./my_context";
 
-import Navbar from "./components/Navbar.jsx";
-import Home from "./views/Home.jsx";
 import { getArtworks } from "./services/artworksService.js";
-import Artwork from "./views/Artwork.jsx";
+import { getUsers } from "./services/usersService";
 
-function App() {
-  const [artworks, setArtworks] = useState([]);
+import Navbar from "./components/common/Navbar.jsx";
+import Home from "./views/Home.jsx";
+import ArtworkView from "./views/ArtworkView.jsx";
+import Category from "./views/Categories.jsx";
+import Cart from "./views/ShoppingCart.jsx";
 
+const App = () => {
+  const [allArtworks, setAllArtworks] = useState([]);
+  const [usersInfo, setUsersInfo] = useState([]);
   useEffect(() => {
     getArtworks()
       .then((data) => {
@@ -18,26 +22,41 @@ function App() {
           ...artwork,
           amount: 0,
         }));
-        setArtworks([...artworksWithAmount]);
+        setAllArtworks([...artworksWithAmount]);
       })
       .catch((error) =>
         console.error("Error al obtener las obras de arte:", error)
       );
+    getUsers()
+      .then((data) => {
+        const usersWithFavorites = data.map((user) => ({
+          user_id: user.user_id,
+          username: user.username,
+          email: user.email,
+          favorites: [],
+        }));
+        setUsersInfo([...usersWithFavorites]);
+      })
+      .catch((error) => console.error("Error al obtener los usuarios:", error));
   }, []);
-  const sharedState = { artworks, setArtworks };
-  console.log(artworks);
-  console.log("holito");
+
+  const sharedState = { allArtworks, setAllArtworks, usersInfo, setUsersInfo };
   return (
     <MyContext.Provider value={sharedState}>
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/artwork/:id" element={<Artwork />} />
+          <Route path="/artworks/:id" element={<ArtworkView />} />
+          <Route
+            path="/artworks/:currentCategory/:page"
+            element={<Category />}
+          />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </BrowserRouter>
     </MyContext.Provider>
   );
-}
+};
 
 export default App;
