@@ -8,6 +8,8 @@ import { getUsers } from "./services/usersService";
 
 import Navbar from "./components/common/Navbar.jsx";
 import Home from "./views/Home.jsx";
+import Login from "./views/Login.jsx";
+import Register from "./views/Register.jsx";
 import ArtworkView from "./views/ArtworkView.jsx";
 import Category from "./views/Categories.jsx";
 import Cart from "./views/ShoppingCart.jsx";
@@ -15,6 +17,8 @@ import Cart from "./views/ShoppingCart.jsx";
 const App = () => {
   const [allArtworks, setAllArtworks] = useState([]);
   const [usersInfo, setUsersInfo] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedUser, setLoggedUser] = useState({});
   useEffect(() => {
     getArtworks()
       .then((data) => {
@@ -40,13 +44,24 @@ const App = () => {
       .catch((error) => console.error("Error al obtener los usuarios:", error));
   }, []);
 
-  const sharedState = { allArtworks, setAllArtworks, usersInfo, setUsersInfo };
+  const sharedState = {
+    allArtworks,
+    setAllArtworks,
+    usersInfo,
+    setUsersInfo,
+    isLoggedIn,
+    setIsLoggedIn,
+    loggedUser,
+    setLoggedUser,
+  };
   return (
     <MyContext.Provider value={sharedState}>
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/artworks/:id" element={<ArtworkView />} />
           <Route
             path="/artworks/:currentCategory/:page"

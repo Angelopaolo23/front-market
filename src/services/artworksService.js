@@ -1,9 +1,9 @@
-import axios from "axios";
-const BASE_URL = `${process.env.REACT_APP_BACKEND_URL}`;
-
+import createAxiosInstance from "../axiosConfig.js";
+const apiWithAuth = createAxiosInstance(true);
+const apiWithouthAuth = createAxiosInstance(false);
 export const getArtworks = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/artworks`);
+    const response = await apiWithouthAuth.get("/artworks");
     return response.data;
   } catch (error) {
     console.error("Error al obtener las obras de arte:", error);
@@ -12,8 +12,8 @@ export const getArtworks = async () => {
 };
 export const getCategories = async (currentCategory, page) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/artworks/${currentCategory}?page=${page}`
+    const response = await apiWithouthAuth.get(
+      `/artworks/${currentCategory}?page=${page}`
     );
     return response.data;
   } catch (error) {
@@ -22,14 +22,9 @@ export const getCategories = async (currentCategory, page) => {
   }
 };
 
-export const addArtwork = async (artwork, token) => {
+export const addArtwork = async (artwork) => {
   try {
-    const response = await axios.post(`${BASE_URL}/artworks`, artwork, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await apiWithAuth.post("/artworks", artwork);
     return response.data;
   } catch (error) {
     console.error("Error al agregar el producto: ", error);

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import MyContext from "../../my_context";
-import { formatCLP } from "../../utils.js";
+import { formatCLP } from "../../utils/commonUtils.js";
 
 const DetailView = () => {
   const { allArtworks, usersInfo } = useContext(MyContext);
@@ -94,7 +94,7 @@ const DetailView = () => {
             <p className="text-gray-600">Inspiración</p>
             <p>{selectedArtwork?.inspiration}</p>
             <p className="text-gray-600">Categorias</p>
-            <p>2</p>
+            <p>{selectedArtwork?.category}</p>
           </div>
         </div>
       </div>

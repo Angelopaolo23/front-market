@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatCLP } from "../../utils.js";
+import { formatCLP } from "../../utils/commonUtils.js";
 const Card = ({ url_image, title, price, artistName, onClick }) => {
   const [isLiked, setIsLiked] = useState(false);
 

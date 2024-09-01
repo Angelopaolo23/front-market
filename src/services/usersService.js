@@ -1,11 +1,9 @@
-import axios from "axios";
+import createAxiosInstance from "../axiosConfig.js";
+const api = createAxiosInstance(false);
 
-const BASE_URL = `${process.env.REACT_APP_BACKEND_URL}`;
-
-// Función para obtener los users desde el backend
 export const getUsers = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/users`);
+    const response = await api.get("/users");
     return response.data;
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
