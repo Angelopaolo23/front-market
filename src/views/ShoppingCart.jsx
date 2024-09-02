@@ -1,5 +1,7 @@
-import React from "react";
-import ShoppingCart from "../components/cart/cartItem.jsx";
+import React, { useEffect, useContext } from "react";
+import MyContext from "../my_context.js";
+import Cart from "../components/cart/Cart.jsx";
+import { getCart } from "../services/cartService.js";
 const sustractFunction = async (id) => {
   try {
     const selectedProduct = artworks.filter((e) => e.product_id === Number(id));
@@ -52,31 +54,24 @@ const addFunction = async (id, counter = null) => {
     throw error;
   }
 };
-const Cart = () => {
-  const cartItems = [
-    {
-      id: "23625145",
-      name: "Philipp Plein",
-      description: "tenis Big Bang Runner",
-      imageUrl: "/path/to/image.jpg",
-      originalPrice: 647162,
-      finalPrice: 258865,
-      size: "40 IT",
-      quantity: 1,
-      tag: "Última pieza",
-    },
-    // ... más items
-  ];
+export const ShoppingCart = () => {
+  const { loggedUser, cartInfo, setCartInfo } = useContext(MyContext);
+  console.log(loggedUser);
+  console.log("AQUI DEBERIA ESTAR EL LOGGEDUSER");
+  useEffect(() => {
+    getCart(loggedUser.user_id)
+      .then((data) => {
+        const cart = data.map((product) => ({
+          ...product,
+        }));
+        setCartInfo([...cart]);
+      })
+      .catch((error) =>
+        console.error("Error al obtener informacion desde servidor.", error)
+      );
+  }, []);
 
-  const cartSummary = {
-    subtotal: 647162,
-    shipping: 25000,
-    discount: 323581,
-    promotion: 64716,
-    total: 283865,
-  };
-
-  return <ShoppingCart items={cartItems} {...cartSummary} />;
+  return <Cart />;
 };
 
-export default Cart;
+export default ShoppingCart;

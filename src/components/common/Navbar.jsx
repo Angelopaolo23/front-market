@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import MyContext from "../../my_context";
 import {
   Disclosure,
   DisclosureButton,
@@ -9,7 +10,12 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import logo from "../../arteviva_logo.png";
 
 const navigation = [
@@ -25,7 +31,13 @@ const classNames = (...classes) => {
 };
 
 const Navbar = () => {
+  const { isLoggedIn, loggedUser } = useContext(MyContext);
   let linkByCategory = (category) => `/artworks/${category}/1`;
+  const prueba = () => {
+    console.log(isLoggedIn);
+    console.log(loggedUser);
+  };
+
   return (
     <>
       <Disclosure as="nav" className="bg-pink-800">
@@ -72,63 +84,108 @@ const Navbar = () => {
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                  <button
-                    type="button"
-                    className="rounded-full bg-pink-800 p-1 text-pink-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-pink-800"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                  {!isLoggedIn ? (
+                    <Link to="/login">
+                      <button className="bg-black bg-opacity-20 text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition duration-200 ease-in-out">
+                        <Link to="/login">Iniciar sesión</Link>
+                      </button>
+                    </Link>
+                  ) : (
+                    <div className="flex items-center">
+                      <button
+                        type="button"
+                        className="mr-4 bg-black bg-opacity-20 text-white rounded-md p-2 hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition duration-200 ease-in-out"
+                      >
+                        <span className="sr-only">Ver carrito</span>
 
-                  <Menu as="div" className="relative ml-3">
-                    <div>
-                      <MenuButton className="flex rounded-full bg-pink-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-pink-800">
-                        <span className="sr-only">Open user menu</span>
-                        <img className="h-8 w-8 rounded-full" src="" alt="" />
-                      </MenuButton>
+                        <Link to="/cart">
+                          <ShoppingCartIcon
+                            className="h-6 w-6"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      </button>
+
+                      <Menu as="div" className="relative">
+                        <MenuButton className="flex rounded-full bg-black bg-opacity-20 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hover:bg-opacity-30 transition duration-200 ease-in-out">
+                          <span className="sr-only">Abrir menú de usuario</span>
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src={loggedUser.photo}
+                            alt=""
+                          />
+                        </MenuButton>
+                        <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <MenuItem>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                onClick={prueba}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Perfil de {loggedUser.username}
+                              </a>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Mis compras
+                              </a>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Mis obras
+                              </a>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Configuración
+                              </a>
+                            )}
+                          </MenuItem>
+                          <MenuItem>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Cerrar sesión
+                              </a>
+                            )}
+                          </MenuItem>
+                        </MenuItems>
+                      </Menu>
                     </div>
-                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <MenuItem>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Mi perfil
-                          </a>
-                        )}
-                      </MenuItem>
-                      <MenuItem>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Configuración
-                          </a>
-                        )}
-                      </MenuItem>
-                      <MenuItem>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Cerrar sesión
-                          </a>
-                        )}
-                      </MenuItem>
-                    </MenuItems>
-                  </Menu>
+                  )}
                 </div>
               </div>
             </div>

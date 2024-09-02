@@ -19,6 +19,7 @@ const App = () => {
   const [usersInfo, setUsersInfo] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedUser, setLoggedUser] = useState({});
+  const [cartInfo, setCartInfo] = useState([]);
   useEffect(() => {
     getArtworks()
       .then((data) => {
@@ -53,6 +54,8 @@ const App = () => {
     setIsLoggedIn,
     loggedUser,
     setLoggedUser,
+    cartInfo,
+    setCartInfo,
   };
   return (
     <MyContext.Provider value={sharedState}>

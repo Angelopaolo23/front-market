@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import MyContext from "../../my_context";
 import { formatCLP } from "../../utils/commonUtils.js";
+import QuantityButtons from "./QuantityButtons";
 
 const DetailView = () => {
   const { allArtworks, usersInfo } = useContext(MyContext);
@@ -12,15 +13,6 @@ const DetailView = () => {
     usersInfo[
       usersInfo.findIndex((e) => e.user_id === selectedArtwork?.seller_id)
     ];
-  const [quantity, setQuantity] = useState(1);
-
-  const incrementQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const decrementQuantity = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
-  };
 
   return (
     <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-6">
@@ -58,23 +50,7 @@ const DetailView = () => {
         </h2>
         {/* Quantity Counter */}
         <p className="text-sm text-xl font-semibold mb-2">Cantidad:</p>
-        <div className="flex items-center mb-4">
-          <button
-            onClick={decrementQuantity}
-            className="bg-gray-200 text-black font-semibold py-2 px-4 rounded-l-lg hover:bg-gray-300 transition-colors"
-          >
-            -
-          </button>
-          <span className="bg-gray-100 text-black font-semibold py-2 px-6">
-            {quantity}
-          </span>
-          <button
-            onClick={incrementQuantity}
-            className="bg-gray-200 text-black font-semibold py-2 px-4 rounded-r-lg hover:bg-gray-300 transition-colors"
-          >
-            +
-          </button>
-        </div>
+        <QuantityButtons />
         <button className="bg-gray-200 text-black font-semibold py-4 px-4 rounded-lg hover:bg-gray-300 transition-colors mb-4 w-full">
           Añadir a tu carrito
         </button>
