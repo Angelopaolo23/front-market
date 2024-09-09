@@ -62,6 +62,8 @@ const Login = () => {
 
       if (token) {
         localStorage.setItem("token", token);
+        console.log(user);
+        console.log(token);
         setIsLoggedIn(true);
         setLoggedUser(user);
         navigate("/");

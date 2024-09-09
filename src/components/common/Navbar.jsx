@@ -12,7 +12,6 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   XMarkIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
@@ -31,11 +30,14 @@ const classNames = (...classes) => {
 };
 
 const Navbar = () => {
-  const { isLoggedIn, loggedUser } = useContext(MyContext);
+  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser, cartInfo } =
+    useContext(MyContext);
   let linkByCategory = (category) => `/artworks/${category}/1`;
-  const prueba = () => {
-    console.log(isLoggedIn);
-    console.log(loggedUser);
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setLoggedUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   return (
@@ -120,7 +122,7 @@ const Navbar = () => {
                             {({ active }) => (
                               <a
                                 href="#"
-                                onClick={prueba}
+                                onClick={() => console.log(typeof cartInfo)}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
@@ -173,6 +175,7 @@ const Navbar = () => {
                             {({ active }) => (
                               <a
                                 href="#"
+                                onClick={handleLogout}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"

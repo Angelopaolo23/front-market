@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { formatCLP } from "../../utils/commonUtils";
+import { createCartUtils } from "../../utils/cartUtils";
+import MyContext from "../../my_context";
 
-const CartItem = () => {
-  const [quantity, setQuantity] = useState(1);
+const CartItem = ({ product }) => {
+  const context = useContext(MyContext);
 
-  const incrementQuantity = () => {
-    console.log("AUMENTANDO LA CANTIDAD");
-  };
-
-  const decrementQuantity = () => {
-    console.log("DISMINUYENDO LA CANTIDAD");
-  };
+  const { addFunction, sustractFunction, removeProduct } =
+    createCartUtils(context);
 
   return (
     <div className="border-b border-gray-200 py-6 mb-6">
@@ -18,13 +15,12 @@ const CartItem = () => {
         <div className="flex flex-col sm:flex-row items-start">
           <div className="w-full sm:w-48 mb-4 sm:mb-0 sm:mr-4 flex justify-center sm:justify-start">
             <img
-              src="https://images.unsplash.com/photo-1518204928-69aa89a61291?q=80&w=1586&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Quietud Invernal"
+              src={product.url_image}
               className="w-48 h-48 object-cover rounded-md shadow-xl"
             />
           </div>
           <div className="w-full sm:flex-1">
-            <h3 className="font-bold text-lg mb-2">Quietud Invernal</h3>
+            <h3 className="font-bold text-lg mb-2">{product.title}</h3>
             <h4 className="text-md text-gray-600 my-2">Categoria</h4>
             <p className="text-sm text-gray-600 my-2">
               Paisaje nevado que captura la serenidad y belleza de un bosque en
@@ -34,16 +30,16 @@ const CartItem = () => {
               <span className="text-sm mr-2">Cantidad:</span>
               <div className="flex items-center">
                 <button
-                  onClick={decrementQuantity}
+                  onClick={() => sustractFunction(product.product_id)}
                   className="bg-gray-200 text-sm text-black font-semibold py-1 px-2 rounded-l-lg hover:bg-gray-300 transition-colors"
                 >
                   -
                 </button>
                 <span className="bg-gray-100 text-sm text-black font-semibold py-1 px-4">
-                  {quantity}
+                  {product.quantity}
                 </span>
                 <button
-                  onClick={incrementQuantity}
+                  onClick={() => addFunction(product.product_id)}
                   className="bg-gray-200 text-sm text-black font-semibold py-1 px-2 rounded-r-lg hover:bg-gray-300 transition-colors"
                 >
                   +
@@ -51,12 +47,15 @@ const CartItem = () => {
               </div>
             </div>
             <p className="font-bold text-xl text-pink-600">
-              {formatCLP(55000)}
+              {formatCLP(product.quantity * product.price)}
             </p>
           </div>
         </div>
         <div className="text-right">
-          <button className="text-gray-400 hover:text-black transition-colors">
+          <button
+            onClick={() => removeProduct(product.product_id)}
+            className="text-gray-400 hover:text-black transition-colors"
+          >
             ✕
           </button>
         </div>

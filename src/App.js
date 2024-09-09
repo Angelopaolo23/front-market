@@ -20,14 +20,16 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedUser, setLoggedUser] = useState({});
   const [cartInfo, setCartInfo] = useState([]);
+  const [reloadData, setReloadData] = useState(false);
   useEffect(() => {
     getArtworks()
       .then((data) => {
-        const artworksWithAmount = data.map((artwork) => ({
+        /*const artworksWithAmount = data.map((artwork) => ({
           ...artwork,
           amount: 0,
         }));
-        setAllArtworks([...artworksWithAmount]);
+        setAllArtworks([...artworksWithAmount]);*/
+        setAllArtworks([...data]);
       })
       .catch((error) =>
         console.error("Error al obtener las obras de arte:", error)
@@ -56,6 +58,8 @@ const App = () => {
     setLoggedUser,
     cartInfo,
     setCartInfo,
+    reloadData,
+    setReloadData,
   };
   return (
     <MyContext.Provider value={sharedState}>
