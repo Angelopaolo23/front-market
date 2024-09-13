@@ -16,9 +16,6 @@ const Cart = ({ cartInfo }) => {
   };
   const totalPrice = useMemo(() => calculatingTotal(cartInfo), [cartInfo]);
 
-  console.log("Cart Info:", cartInfo);
-  console.log("Total Price:", totalPrice);
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">

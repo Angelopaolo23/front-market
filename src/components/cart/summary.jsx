@@ -5,7 +5,6 @@ const Summary = ({ cartPrice }) => {
   const subTotal = cartPrice;
   const delivery = subTotal * 0.1;
   const totalPrice = subTotal + delivery;
-  console.log("Summary - Cart Price:", cartPrice);
 
   return (
     <div className="md:w-1/3 mt-6 md:mt-0">

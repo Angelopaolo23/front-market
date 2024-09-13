@@ -18,10 +18,10 @@ import {
 import logo from "../../arteviva_logo.png";
 
 const navigation = [
-  { name: "Inicio", href: "/", current: true },
-  { name: "Noticias", href: "#", current: false },
-  { name: "Eventos", href: "#", current: false },
-  { name: "Favoritos", href: "#", current: false },
+  { name: "Inicio", route: "/", current: true },
+  { name: "Noticias", route: "/news", current: false },
+  { name: "Eventos", route: "/events", current: false },
+  { name: "Favoritos", route: "/favorites", current: false },
 ];
 const categories = ["Fotografías", "Pinturas", "Ilustraciones", "Collages"];
 
@@ -30,7 +30,7 @@ const classNames = (...classes) => {
 };
 
 const Navbar = () => {
-  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser, cartInfo } =
+  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
     useContext(MyContext);
   let linkByCategory = (category) => `/artworks/${category}/1`;
   const handleLogout = () => {
@@ -67,46 +67,50 @@ const Navbar = () => {
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                      {navigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-pink-900 text-white"
-                              : "text-pink-300 hover:bg-pink-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          {item.name}
-                        </a>
-                      ))}
+                      {navigation.map(
+                        (item) =>
+                          (item.name !== "Favoritos" ||
+                            (item.name === "Favoritos" && isLoggedIn)) && (
+                            <Link
+                              key={item.name}
+                              to={item.route}
+                              className={classNames(
+                                item.current
+                                  ? "bg-pink-900 text-white"
+                                  : "text-pink-300 hover:bg-pink-700 hover:text-white",
+                                "rounded-md px-3 py-2 text-sm font-medium"
+                              )}
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </Link>
+                          )
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   {!isLoggedIn ? (
-                    <Link to="/login">
-                      <button className="bg-black bg-opacity-20 text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition duration-200 ease-in-out">
-                        <Link to="/login">Iniciar sesión</Link>
-                      </button>
+                    <Link
+                      to="/login"
+                      className="bg-black bg-opacity-20 text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition duration-200 ease-in-out"
+                    >
+                      Iniciar sesión
                     </Link>
                   ) : (
                     <div className="flex items-center">
-                      <button
+                      <Link
+                        to="/cart"
                         type="button"
                         className="mr-4 bg-black bg-opacity-20 text-white rounded-md p-2 hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition duration-200 ease-in-out"
                       >
                         <span className="sr-only">Ver carrito</span>
 
-                        <Link to="/cart">
-                          <ShoppingCartIcon
-                            className="h-6 w-6"
-                            aria-hidden="true"
-                          />
-                        </Link>
-                      </button>
+                        <ShoppingCartIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </Link>
 
                       <Menu as="div" className="relative">
                         <MenuButton className="flex rounded-full bg-black bg-opacity-20 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hover:bg-opacity-30 transition duration-200 ease-in-out">
@@ -120,61 +124,60 @@ const Navbar = () => {
                         <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <MenuItem>
                             {({ active }) => (
-                              <a
-                                href="#"
-                                onClick={() => console.log(typeof cartInfo)}
+                              <Link
+                                to="#"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 Perfil de {loggedUser.username}
-                              </a>
+                              </Link>
                             )}
                           </MenuItem>
                           <MenuItem>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <Link
+                                to="#"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 Mis compras
-                              </a>
+                              </Link>
                             )}
                           </MenuItem>
                           <MenuItem>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <Link
+                                to="#"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 Mis obras
-                              </a>
+                              </Link>
                             )}
                           </MenuItem>
                           <MenuItem>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <Link
+                                to="#"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 Configuración
-                              </a>
+                              </Link>
                             )}
                           </MenuItem>
                           <MenuItem>
                             {({ active }) => (
-                              <a
-                                href="#"
+                              <Link
+                                to="/"
                                 onClick={handleLogout}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
@@ -182,7 +185,7 @@ const Navbar = () => {
                                 )}
                               >
                                 Cerrar sesión
-                              </a>
+                              </Link>
                             )}
                           </MenuItem>
                         </MenuItems>
@@ -198,8 +201,8 @@ const Navbar = () => {
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
-                    as="a"
-                    href={item.href}
+                    as={Link}
+                    to={item.route}
                     className={classNames(
                       item.current
                         ? "bg-pink-900 text-white"
@@ -217,17 +220,17 @@ const Navbar = () => {
         )}
       </Disclosure>
 
-      {/* Categories row */}
       <div className="bg-pink-900 shadow-md overflow-hidden">
         <div className="container mx-auto px-4 py-2 flex items-center justify-start overflow-x-auto scrollbar-hide">
           <div className="flex space-x-2 sm:space-x-4">
             {categories.map((category) => (
-              <button
+              <Link
                 key={category}
+                to={linkByCategory(category)}
                 className="flex-shrink-0 px-3 py-2 rounded-md text-pink-300 hover:bg-pink-700 hover:text-white transition duration-150 ease-in-out text-sm font-medium whitespace-nowrap"
               >
-                <Link to={linkByCategory(category)}>{category}</Link>
-              </button>
+                {category}
+              </Link>
             ))}
           </div>
         </div>

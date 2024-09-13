@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatCLP } from "../../utils/commonUtils";
 import { createCartUtils } from "../../utils/cartUtils";
 import MyContext from "../../my_context";
 
 const CartItem = ({ product }) => {
   const context = useContext(MyContext);
+  const navigate = useNavigate();
 
   const { addFunction, sustractFunction, removeProduct } =
     createCartUtils(context);
@@ -15,6 +17,7 @@ const CartItem = ({ product }) => {
         <div className="flex flex-col sm:flex-row items-start">
           <div className="w-full sm:w-48 mb-4 sm:mb-0 sm:mr-4 flex justify-center sm:justify-start">
             <img
+              onClick={() => navigate(`/artworks/${product.product_id}`)}
               src={product.url_image}
               className="w-48 h-48 object-cover rounded-md shadow-xl"
             />

@@ -43,11 +43,12 @@ export const createCartUtils = (context) => {
   };
   const removeProduct = async (product_id) => {
     try {
-      const body = {
-        user_id: loggedUser.user_id,
-        product_id: product_id,
-      };
-      await apiWithAuth.delete("/cart", body);
+      await apiWithAuth.delete("/cart", {
+        data: {
+          user_id: loggedUser.user_id,
+          product_id: product_id,
+        },
+      });
 
       setReloadData(true);
     } catch (error) {

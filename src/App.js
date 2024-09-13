@@ -13,6 +13,7 @@ import Register from "./views/Register.jsx";
 import ArtworkView from "./views/ArtworkView.jsx";
 import Category from "./views/Categories.jsx";
 import Cart from "./views/ShoppingCart.jsx";
+import Favorites from "./views/Favorites.jsx";
 
 const App = () => {
   const [allArtworks, setAllArtworks] = useState([]);
@@ -20,7 +21,9 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedUser, setLoggedUser] = useState({});
   const [cartInfo, setCartInfo] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [reloadData, setReloadData] = useState(false);
+
   useEffect(() => {
     getArtworks()
       .then((data) => {
@@ -58,6 +61,8 @@ const App = () => {
     setLoggedUser,
     cartInfo,
     setCartInfo,
+    favorites,
+    setFavorites,
     reloadData,
     setReloadData,
   };
@@ -75,6 +80,7 @@ const App = () => {
             element={<Category />}
           />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </BrowserRouter>
     </MyContext.Provider>
