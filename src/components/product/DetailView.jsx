@@ -73,7 +73,13 @@ const DetailView = () => {
           </button>
         </div>
         <button
-          onClick={() => addFunction(selectedArtwork.product_id, quantity)}
+          onClick={() =>
+            addFunction(
+              selectedArtwork.product_id,
+              selectedArtwork.price,
+              quantity
+            )
+          }
           className="bg-gray-200 text-black font-semibold py-4 px-4 rounded-lg hover:bg-gray-300 transition-colors mb-4 w-full"
         >
           Añadir a tu carrito

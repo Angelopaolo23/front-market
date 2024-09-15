@@ -42,7 +42,7 @@ const CartItem = ({ product }) => {
                   {product.quantity}
                 </span>
                 <button
-                  onClick={() => addFunction(product.product_id)}
+                  onClick={() => addFunction(product.product_id, product.price)}
                   className="bg-gray-200 text-sm text-black font-semibold py-1 px-2 rounded-r-lg hover:bg-gray-300 transition-colors"
                 >
                   +

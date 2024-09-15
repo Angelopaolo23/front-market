@@ -4,14 +4,14 @@ const apiWithAuth = createAxiosInstance(true);
 export const createCartUtils = (context) => {
   const { setReloadData, allArtworks, loggedUser } = context;
 
-  const sustractFunction = async (id) => {
+  const sustractFunction = async (product_id) => {
     try {
-      const selectedProduct = allArtworks.filter(
+      /*const selectedProduct = allArtworks.filter(
         (e) => e.product_id === Number(id)
-      );
+      );*/
       const body = {
         user_id: loggedUser.user_id,
-        product_id: selectedProduct[0].product_id,
+        product_id: product_id,
       };
       await apiWithAuth.put("/cart/sustract", body);
 
@@ -22,15 +22,12 @@ export const createCartUtils = (context) => {
     }
   };
 
-  const addFunction = async (id, counter = null) => {
+  const addFunction = async (product_id, product_price, counter = null) => {
     try {
-      const selectedProduct = allArtworks.filter(
-        (e) => e.product_id === Number(id)
-      );
       const body = {
         user_id: loggedUser.user_id,
-        product_id: selectedProduct[0].product_id,
-        price: selectedProduct[0].price,
+        product_id: product_id,
+        price: product_price,
         quantity: counter !== null ? counter : undefined,
       };
       await apiWithAuth.post("/cart", body);
