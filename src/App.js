@@ -13,6 +13,7 @@ import Register from "./views/Register.jsx";
 import ArtworkView from "./views/ArtworkView.jsx";
 import Category from "./views/Categories.jsx";
 import Cart from "./views/ShoppingCart.jsx";
+import Orders from "./views/Orders.jsx";
 import Favorites from "./views/Favorites.jsx";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
   const [cartInfo, setCartInfo] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [reloadData, setReloadData] = useState(false);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     getArtworks()
@@ -65,6 +67,8 @@ const App = () => {
     setFavorites,
     reloadData,
     setReloadData,
+    orders,
+    setOrders,
   };
   return (
     <MyContext.Provider value={sharedState}>
@@ -80,6 +84,7 @@ const App = () => {
             element={<Category />}
           />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </BrowserRouter>

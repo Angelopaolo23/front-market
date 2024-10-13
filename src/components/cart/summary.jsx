@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { formatCLP } from "../../utils/commonUtils";
+import MyContext from "../../my_context";
+import { createCartUtils } from "../../utils/cartUtils";
 
 const Summary = ({ cartPrice }) => {
+  const context = useContext(MyContext);
+  const { createOrder } = createCartUtils(context);
   const subTotal = cartPrice;
   const delivery = subTotal * 0.1;
   const totalPrice = subTotal + delivery;
+
+  const handleCheckout = async () => {
+    try {
+      await createOrder();
+      alert("Orden creada con éxito");
+      // Aquí puedes redirigir al usuario si es necesario
+    } catch (error) {
+      alert("Error al crear la orden: " + error.message);
+    }
+  };
 
   return (
     <div className="md:w-1/3 mt-6 md:mt-0">
@@ -26,7 +40,10 @@ const Summary = ({ cartPrice }) => {
         </div>
       </div>
 
-      <button className="w-full bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg mt-6 hover:bg-pink-700 transition-colors">
+      <button
+        onClick={handleCheckout}
+        className="w-full bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg mt-6 hover:bg-pink-700 transition-colors"
+      >
         Ir al checkout
       </button>
     </div>
