@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "./Card.jsx";
+import Card from "./Card";
 
 const ArtworkGallery = forwardRef(({ artworkData, type = "standard" }, ref) => {
   const navigate = useNavigate();

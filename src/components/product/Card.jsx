@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { formatCLP } from "../../utils/commonUtils.js";
 import MyContext from "../../my_context.js";
-import FavoriteButton from "./FavoriteButton.jsx";
+import FavoriteButton from "../product/FavoriteButton.jsx";
 
 const Card = ({
   url_image,
